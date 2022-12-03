@@ -20,7 +20,7 @@ enum RoundResult {
     Draw,
 }
 
-pub struct Round {
+struct Round {
     selected_shape: Shape,
     opponents_shape: Shape,
 }
@@ -42,7 +42,7 @@ fn get_shape_from_char(c: &char) -> Shape {
     }
 }
 
-pub fn get_round_from_line(line: &str, part: Part) -> Round {
+fn get_round_from_line(line: &str, part: Part) -> Round {
     let opponents_shape = get_shape_from_char(&line.chars().nth(0).unwrap());
     let selected_shape = if part == Part::PartOne {
         get_shape_from_char(&line.chars().nth(2).unwrap())
@@ -89,7 +89,7 @@ impl Round {
         }
     }
 
-    pub fn get_total_score(&self) -> u32 {
+    fn get_total_score(&self) -> u32 {
         let scores_per_result: HashMap<RoundResult, u32> = HashMap::from([
             (RoundResult::Win, 6),
             (RoundResult::Draw, 3),
@@ -156,8 +156,7 @@ pub fn print_results() {
 
     let lines = file_contents.split("\n").collect::<Vec<&str>>();
 
-    let mut part_1_result: u32 = 0;
-    let mut part_2_result: u32 = 0;
+    let (mut part_1_result, mut part_2_result): (u32, u32) = (0, 0);
     for &line in &lines {
         if line.is_empty() {
             continue;
