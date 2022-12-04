@@ -8,19 +8,11 @@ where
     T1: std::fmt::Display,
     T2: std::fmt::Display,
 {
-    const WIDTH: usize = 33;
-    const PREFIX_LEN: usize = 7;
-    println!("┌{:─^WIDTH$}┐", format!("| {} |", day));
-    println!(
-        " Part 1:{:>width$}",
-        results.part_one,
-        width = WIDTH - PREFIX_LEN
-    );
-    println!(
-        " Part 2:{:>width$}",
-        results.part_two,
-        width = WIDTH - PREFIX_LEN
-    );
+    const HEADER_WIDTH: usize = 33;
+    const DAY_WIDTH: usize = HEADER_WIDTH - 7;
+    println!("┌{:─^HEADER_WIDTH$}┐", format!("| {} |", day));
+    println!(" Part 1:{:>DAY_WIDTH$}", results.part_one);
+    println!(" Part 2:{:>DAY_WIDTH$}", results.part_two);
 }
 
 #[derive(PartialEq, Eq)]
