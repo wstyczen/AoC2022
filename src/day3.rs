@@ -1,7 +1,7 @@
 use std::collections::HashSet;
 
-#[path = "util.rs"]
-mod util;
+use super::util;
+use util::DayResults;
 
 fn get_common_char(strings: (&str, &str)) -> Option<char> {
     let (first, second): (&str, &str) = strings;
@@ -43,7 +43,7 @@ fn get_priority(c: char) -> u32 {
     u32::from(27 + c as u8 - 'A' as u8)
 }
 
-pub fn print_results() {
+pub fn get_results() -> DayResults<u32, u32> {
     const FILE_PATH: &str = ".//input//Day3.txt";
     let file_contents = std::fs::read_to_string(FILE_PATH).unwrap();
 
@@ -66,11 +66,8 @@ pub fn print_results() {
         }
     }
 
-    util::print_day_results(
-        3,
-        util::DayResults {
-            part_one: priority_sum_halves,
-            part_two: priority_sum_threes,
-        },
-    );
+    DayResults {
+        part_one: priority_sum_halves,
+        part_two: priority_sum_threes,
+    }
 }

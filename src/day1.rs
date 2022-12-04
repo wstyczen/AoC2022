@@ -1,7 +1,7 @@
 use std::collections::BinaryHeap;
 
-#[path = "util.rs"]
-mod util;
+use super::util;
+use util::DayResults;
 
 fn get_calories_per_elf(file_contents: &String) -> BinaryHeap<u32> {
     let mut top_calories_per_elf = BinaryHeap::new();
@@ -17,7 +17,7 @@ fn get_calories_per_elf(file_contents: &String) -> BinaryHeap<u32> {
     top_calories_per_elf
 }
 
-pub fn print_results() {
+pub fn get_results() -> DayResults<u32, u32> {
     const FILE_PATH: &str = ".//input//Day1.txt";
     let file_contents = std::fs::read_to_string(FILE_PATH).unwrap();
 
@@ -31,11 +31,9 @@ pub fn print_results() {
         }
         sum
     };
-    util::print_day_results(
-        1,
-        util::DayResults {
-            part_one: top,
-            part_two: top_three_sum,
-        },
-    );
+
+    DayResults {
+        part_one: top,
+        part_two: top_three_sum,
+    }
 }

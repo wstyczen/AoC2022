@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 
-#[path = "util.rs"]
-mod util;
+use super::util;
+use util::DayResults;
 use util::Part;
 
 #[derive(Hash, PartialEq, Eq, Clone)]
@@ -150,7 +150,7 @@ fn pick_shape_to_match_result(opponents_shape: Shape, result: RoundResult) -> Sh
     }
 }
 
-pub fn print_results() {
+pub fn get_results() -> DayResults<u32, u32> {
     const FILE_PATH: &str = ".//input//Day2.txt";
     let file_contents = std::fs::read_to_string(FILE_PATH).unwrap();
 
@@ -165,11 +165,8 @@ pub fn print_results() {
         part_2_result += get_round_from_line(&line, Part::PartTwo).get_total_score();
     }
 
-    util::print_day_results(
-        2,
-        util::DayResults {
-            part_one: part_1_result,
-            part_two: part_2_result,
-        },
-    );
+    DayResults {
+        part_one: part_1_result,
+        part_two: part_2_result,
+    }
 }

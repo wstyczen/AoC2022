@@ -1,5 +1,5 @@
-#[path = "util.rs"]
-mod util;
+use super::util;
+use util::DayResults;
 
 use regex::Captures;
 use regex::Regex;
@@ -13,7 +13,7 @@ impl Range {
     fn contains(&self, other: &Range) -> bool {
         self.low <= other.low && self.high >= other.high
     }
-    fn get_no_overlaping(&self, other: &Range) -> u32 {
+    fn get_overlapping_count(&self, other: &Range) -> u32 {
         if self.low > other.high || self.high < other.low {
             return 0;
         }
@@ -44,11 +44,11 @@ fn parse_range_pair(string: &str) -> (Range, Range) {
     );
 }
 
-pub fn print_results() {
+pub fn get_results() -> DayResults<u32, u32> {
     const FILE_PATH: &str = ".//input//Day4.txt";
     let file_contents = std::fs::read_to_string(FILE_PATH).unwrap();
 
-    let (mut one_contains_another_counter, mut no_of_overlapping_pairs): (u32, u32) = (0, 0);
+    let (mut one_contains_another_count, mut have_overlap_count): (u32, u32) = (0, 0);
     for line in file_contents.split("\n").collect::<Vec<&str>>() {
         if line.is_empty() {
             continue;
@@ -56,19 +56,16 @@ pub fn print_results() {
         let (first, second) = parse_range_pair(line);
         // Part 1
         if first.contains(&second) || second.contains(&first) {
-            one_contains_another_counter += 1;
+            one_contains_another_count += 1;
         }
         // Part 2
-        if first.get_no_overlaping(&second) != 0 {
-            no_of_overlapping_pairs += 1;
+        if first.get_overlapping_count(&second) != 0 {
+            have_overlap_count += 1;
         }
     }
 
-    util::print_day_results(
-        4,
-        util::DayResults {
-            part_one: one_contains_another_counter,
-            part_two: no_of_overlapping_pairs,
-        },
-    );
+    DayResults {
+        part_one: one_contains_another_count,
+        part_two: have_overlap_count,
+    }
 }
