@@ -15,9 +15,10 @@ impl Range {
     }
     fn get_overlapping_count(&self, other: &Range) -> u32 {
         if self.low > other.high || self.high < other.low {
-            return 0;
+            0
+        } else {
+            1 + std::cmp::min(self.high, other.high) - std::cmp::max(self.low, other.low)
         }
-        return 1 + std::cmp::min(self.high, other.high) - std::cmp::max(self.low, other.low);
     }
 }
 
@@ -32,7 +33,7 @@ fn parse_range_pair(string: &str) -> (Range, Range) {
     let re = Regex::new(r"^(\d+)\-(\d+),(\d+)\-(\d+)\s*$").unwrap();
     let captures = re.captures(string).unwrap();
 
-    return (
+    (
         Range {
             low: get_group(&captures, 1),
             high: get_group(&captures, 2),
@@ -41,14 +42,14 @@ fn parse_range_pair(string: &str) -> (Range, Range) {
             low: get_group(&captures, 3),
             high: get_group(&captures, 4),
         },
-    );
+    )
 }
 
 pub fn get_results() -> DayResults<u32, u32> {
     const FILE_PATH: &str = ".//input//Day4.txt";
     let file_contents = std::fs::read_to_string(FILE_PATH).unwrap();
 
-    let (mut one_contains_another_count, mut have_overlap_count): (u32, u32) = (0, 0);
+    let (mut one_contains_another_count, mut do_overlap_count): (u32, u32) = (0, 0);
     for line in file_contents.split("\n").collect::<Vec<&str>>() {
         if line.is_empty() {
             continue;
@@ -60,12 +61,12 @@ pub fn get_results() -> DayResults<u32, u32> {
         }
         // Part 2
         if first.get_overlapping_count(&second) != 0 {
-            have_overlap_count += 1;
+            do_overlap_count += 1;
         }
     }
 
     DayResults {
         part_one: one_contains_another_count,
-        part_two: have_overlap_count,
+        part_two: do_overlap_count,
     }
 }
