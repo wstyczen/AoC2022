@@ -3,6 +3,7 @@ use super::day2;
 use super::day3;
 use super::day4;
 use super::day5;
+use super::day6;
 use super::util;
 use util::DayResults;
 
@@ -35,6 +36,7 @@ pub fn print_day_results(day: &u32) {
         3 => print_results(&day, &day3::get_results(), &before),
         4 => print_results(&day, &day4::get_results(), &before),
         5 => print_results(&day, &day5::get_results(), &before),
+        6 => print_results(&day, &day6::get_results(), &before),
         _ => (),
     };
 }
